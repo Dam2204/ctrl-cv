@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>14조-Ctrl+CV</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <style>
+    .modal {
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.493);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    form {
+      height: 700px;
+      width: 550px;
+      background-image: url(data:image/jpeg;base64,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);
+      background-repeat: no-repeat;
+      background-position: 50% 88%;
+      background-color: rgb(255, 226, 244);
+      position: relative;
+    }
+
+
+
+    i {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+
+
+    .cvmain {
+      width: 100%;
+      text-align: center;
+    }
+
+    .menubar {
+      text-align: center;
+      background-color: mediumaquamarine;
+
+    }
+
+    .menubar>button {
+      width: 200px;
+
+    }
+
+    .teaminfo {
+      height: 300px;
+      margin: 10px 15px 20px 15px;
+
+      text-align: center;
+
+    }
+
+    .membercards {
+      background-color: whitesmoke;
+      margin: 10px auto 30px auto;
+      width: 1500px;
+      height: 600px;
+
+    }
+
+    .card-img-top {
+      height: 24rem;
+      object-fit: cover;
+
+    }
+
+    .container {
+      margin: auto auto auto auto;
+      background-color: #3d3b3a;
+      max-width: 1920px;
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin: 15px 15px 15px 7.5px;
+    }
+
+    .menu {
+      margin: 10px 10px 10px auto;
+    }
+
+    .newmemberui {
+
+      width: 500px;
+      margin: 20px auto 20px auto;
+
+      border: 1px solid white;
+      padding: 20px;
+      border-radius: 5px;
+
+
+    }
+  </style>
+
+  <script type="module">
+
+    // Firebase SDK 라이브러리 가져오기
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { collection, doc, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhe-tYst1ulTShEumb0cJBbGUJY0k0Iok",
+      authDomain: "sparta-3e26b.firebaseapp.com",
+      projectId: "sparta-3e26b",
+      storageBucket: "sparta-3e26b.appspot.com",
+      messagingSenderId: "522280812292",
+      appId: "1:522280812292:web:176fa162c6f0596e771a51",
+      measurementId: "G-CC3LBJ30R7"
+    };
+
+
+    // Firebase 인스턴스 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+
+    $("#makemembtn").click(async function () {
+      let image = $('#image').val();
+      let title = $('#title').val();
+      let comment = $('#comment').val();
+
+      let doc = {
+        'image': image,
+        'title': title,
+        'comment': comment
+      };
+
+      await addDoc(collection(db, "ctrl_cv"), doc);
+      alert('멤버 등록 완료!');
+
+      window.location.reload();
+    })
+
+
+    let docs = await getDocs(collection(db, "ctrl_cv"));
+    docs.forEach(async (doc) => {
+      let row = doc.data();
+
+      let image = row['image'];
+      let title = row['title'];
+      let comment = row['comment'];
+
+      let temp_html = `
+            <div class="col">
+                <div class="card h-100">
+                    <img src="${image}"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${title}</h5>
+                        <p class="card-text">${comment}</p>
+                        <button>삭제</button>
+                    </div>
+                </div>
+            </div>
+            `
+
+      $('#card').append(temp_html);
+
+    });
+
+
+
+    $("#click1").click(async function () {
+      window.open('https://www.naver.com')
+    });
+
+    $("#click2").click(async function () {
+      window.open('https://www.naver.com')
+    });
+
+    $("#click3").click(async function () {
+      alert("리을")
+    });
+
+    $("#click4").click(async function () {
+      window.open('https://aortm2.tistory.com/', '_blank', 'width=700, height=600, top=50, left=50, scrollbars=yes')
+
+    });
+
+    const modal = document.querySelector('.modal')
+
+    $("#makemember").click(async function () {
+      modal.style.display = 'flex'
+    });
+
+    $("#closenew").click(async function () {
+      modal.style.display = 'none'
+    });
+
+
+
+
+
+  </script>
+</head>
+
+<body>
+  <div class="cvmain">
+    <img src="ctrl2.png">
+  </div>
+  <header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <img class="icon" src="icon.png">
+          <li class="menu"><a href="#" class="nav-link px-2 text-white">팀 소개</a></li>
+          <li class="menu"><a href="#" class="nav-link px-2 text-white">메뉴1</a></li>
+          <li class="menu"><a href="#" class="nav-link px-2 text-white">멤버 소개</a></li>
+          <li class="menu"><a href="#" class="nav-link px-2 text-white">메뉴2</a></li>
+        </ul>
+
+        <div class="text-end">
+          <button id="makemember" type="button" class="btn btn-outline-light me-2">멤버 등록하기</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="teaminfo">
+    <div class="card mb-3" style="max-width: 1920px; height: 300px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="team2.png" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">CTRL+CV</h5>
+            <p class="card-text">코드를 가장 신속하고 정확하게 구현하는 방법을 추구하는 방법은 복붙입니다.<br></p>
+            <p class="card-text"><small class="text-body-secondary">14조 CTRL+CV 는 가능한 빠르고 정확한 코드를 만드는것을 추구하고 있으며,<br>
+                그런 개발자가 되기 위해 오늘도 열심히 학습을 하고 있습니다! </small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="card" class="membercards row row-cols-1 row-cols-md-4 g-3 mx-auto">
+    <div class="col">
+      <div class="card">
+        <img id="click1" src="member1.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">김수빈</h5>
+          <p class="card-text">임포스터</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img id="click2" src="member2.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">정동현</h5>
+          <p class="card-text">항해사 출신</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img id="click3" src="member3.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">이소영</h5>
+          <p class="card-text">팀장</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <img id="click4" src="member4.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">조웅상</h5>
+          <p class="card-text">부 팀장</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <body>
+    <div class="modal">
+      <form>
+        <div class="newmemberui" id="mem1234">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="image" placeholder="사진 URL">
+            <label for="floatingInput">사진 URL</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="title" placeholder="이름">
+            <label for="floatingInput">이름</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input type="email" class="form-control" id="comment" placeholder="소개">
+            <label for="floatingInput">소개</label>
+          </div>
+          <button id="makemembtn" type="button" class="btn btn-success">멤버 생성</button>
+          <button id="closenew" class="btn btn-secondary">닫기</button>
+        </div>
+
+      </form>
+    </div>
+  </body>
+</body>
+
+</html>
