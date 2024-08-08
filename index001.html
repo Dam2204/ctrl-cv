@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -17,39 +16,10 @@
       font-family: "Gowun Dodum", sans-serif;
     }
 
-    .fixed-button {
-            position: fixed; /* 화면에1251251251 고정 */
-            top: 800px; /* 화면의 위에서 20px 아래 */
-            right: 80px; /* 화면의 오른쪽에서 20px 왼쪽?? */
-            padding: 10px 20px;
-            background-color: #857b7d; /* 빨간색 배경 */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10; /* 다른 요소 위에 표시 */
-            text-decoration-line: none;
-            box-shadow: 5px 5px rgb(75, 75, 75);
-
-            
-
-        }
 
     .msg {
       color: rgb(165, 160, 160);
     }
-
-
-    form {
-      height: 450px;
-      width: 550px;
-      background-repeat: no-repeat;
-      background-position: 20%;
-      background-color: rgb(230, 230, 230);
-      position: relative;
-    }
-
 
     i {
       position: absolute;
@@ -66,7 +36,7 @@
     }
 
     .teaminfo {
-      width: 1800px;
+      width: 1875px;
       height: 300px;
       margin: 10px auto 20px auto;
 
@@ -100,7 +70,14 @@
       justify-content: center;
     }
 
-
+    form {
+      height: 350px;
+      width: 540px;
+      background-repeat: no-repeat;
+      background-position: 50% 88%;
+      background-color: rgb(230, 230, 230);
+      position: relative;
+    }
 
     .newmember {
       background-color: gold;
@@ -136,6 +113,27 @@
 
     .menu {
       margin: 10px 10px 10px auto;
+    }
+
+    .fixed-button {
+      position: fixed;
+      /* 화면에 고정 */
+      top: 800px;
+      /* 화면의 위에서 20px 아래 */
+      right: 80px;
+      /* 화면의 오른쪽에서 20px 왼쪽 */
+      padding: 10px 20px;
+      text-decoration-line: none;
+      background-color: rgba(163, 160, 160, 0.7);
+      box-shadow: 0px 3px rgba(75, 75, 75, 0.6);
+      /* 빨간색 배경 */
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 15px;
+      z-index: 10;
+      /* 다른 요소 위에 표시 */
     }
   </style>
 
@@ -210,24 +208,24 @@
     });
 
 
-   // 멤버 삭제 함수
-   async function deleteGuestBookEntry(entryId) {
-    try {
+    // 멤버 삭제 함수
+    async function deleteGuestBookEntry(entryId) {
+      try {
         const docRef = doc(db, "ctrl_cv", entryId);
         await deleteDoc(docRef);
         console.log(`Guest book entry with ID ${entryId} has been deleted.`);
-    } catch (error) {
+      } catch (error) {
         console.error("Error deleting guest book entry:", error);
+      }
     }
-}
 
-// 멤버 삭제 클릭
+    // 멤버 삭제 클릭
     window.deleteEntry = async (entryId) => {
-    if (confirm("이 멤버를 삭제하시겠습니까?")) {
+      if (confirm("이 멤버를 삭제하시겠습니까?")) {
         await deleteGuestBookEntry(entryId);
         window.location.reload();
-    }
-};
+      }
+    };
 
 
     let url = "http://spartacodingclub.shop/sparta_api/seoulair";
@@ -241,11 +239,11 @@
     });
 
     $("#click2").click(async function () {
-      window.open('detail_2.html', '정동현', 'width=800, height=430, top=150, left=550, scrollbars=no resizeable=none')
+      window.open('detail_2.html', '정동현', 'width=800, height=460, top=150, left=550, scrollbars=no resizeable=none')
     });
 
     $("#click3").click(async function () {
-      window.open('detail_3.html', '이소영', 'width=800, height=430, top=150, left=550, scrollbars=no resizeable=none')
+      window.open('detail_3.html', '이소영', 'width=800, height=450, top=150, left=550, scrollbars=no resizeable=none')
     });
 
     $("#click4").click(async function () {
@@ -255,13 +253,13 @@
 
     const modal = document.querySelector('.modal')
 
-$("#makemember").click(async function () {
-  modal.style.display = 'flex'
-});
+    $("#makemember").click(async function () {
+      modal.style.display = 'flex'
+    });
 
-$("#closenew").click(async function () {
-  modal.style.display = 'none'
-});
+    $("#closenew").click(async function () {
+      modal.style.display = 'none'
+    });
 
 
 
@@ -320,7 +318,7 @@ $("#closenew").click(async function () {
       <img id="click1" src="member1.png" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">김수빈</h5>
-        <p class="card-text">임 포 스 터</p>
+        <p class="card-text">임포스터</p>
       </div>
     </div>
   </div>
@@ -353,7 +351,7 @@ $("#closenew").click(async function () {
   </div>
   </div>
 
-  
+
   <div class="modal">
     <form>
       <div class="newmemberui" id="mem1234">
@@ -369,13 +367,13 @@ $("#closenew").click(async function () {
           <input type="email" class="form-control" id="comment" placeholder="소개">
           <label for="floatingInput">소개</label>
         </div>
-        <button id="makemembtn" type="button" class="btn btn-success">멤버 생성</button>
+        <button id="makemembtn" type="button" class="btn btn-warning">멤버 생성</button>
         <button id="closenew" class="btn btn-secondary">닫기</button>
       </div>
 
     </form>
   </div>
-  <li><a href="#top" class="fixed-button">TOP</a></li>
+  <a href="#top" class="fixed-button">▲</a>
 </body>
 
 </html>
