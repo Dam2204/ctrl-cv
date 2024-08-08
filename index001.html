@@ -17,23 +17,34 @@
     }
 
     .fixed-button {
-            position: fixed; /* 화면에1251251251 고정 */
-            top: 800px; /* 화면의 위에서 20px 아래 */
-            right: 80px; /* 화면의 오른쪽에서 20px 왼쪽? */
-            padding: 10px 20px;
-            background-color: #857b7d; /* 빨간색 배경 */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10; /* 다른 요소 위에 표시 */
-            text-decoration-line: none;
-            box-shadow: 5px 5px rgb(75, 75, 75);
+      position: fixed;
+      /* 화면에1251251251 고정 */
+      top: 800px;
+      /* 화면의 위에서 20px 아래 */
+      right: 80px;
+      /* 화면의 오른쪽에서 20px 왼쪽? */
+      padding: 10px 20px;
+      background-color: #857b7d;
+      /* 빨간색 배경 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 10;
+      /* 다른 요소 위에 표시 */
+      text-decoration-line: none;
+      box-shadow: 5px 5px rgb(75, 75, 75);
 
-            
 
-        }
+
+    }
+
+    #makemempass {
+      justify-content: flex-end;
+      margin-left: 90px;
+
+    }
 
     .msg {
       color: rgb(165, 160, 160);
@@ -186,6 +197,21 @@
       let image = $('#image').val();
       let title = $('#title').val();
       let comment = $('#comment').val();
+      const makemempa = document.getElementById("makemempass").value;
+
+
+      //비밀번호(1234) 체크
+      if (makemempa !== '1234') {
+        alert("올바른 암호를 입력해 주세요.");
+        //입력한거 초기화
+        document.getElementById("image").value = '';
+        document.getElementById("comment").value = '';
+        document.getElementById("title").value = '';
+        document.getElementById("makemempass").value = '';
+        return;
+      }
+
+
 
       let doc = {
         'image': image,
@@ -228,13 +254,9 @@
 
     // 멤버 삭제 함수
     async function deleteGuestBookEntry(entryId) {
-      try {
-        const docRef = doc(db, "ctrl_cv", entryId);
-        await deleteDoc(docRef);
-        console.log(`Guest book entry with ID ${entryId} has been deleted.`);
-      } catch (error) {
-        console.error("Error deleting guest book entry:", error);
-      }
+      const docRef = doc(db, "ctrl_cv", entryId);
+      await deleteDoc(docRef);
+
     }
 
     // 멤버 삭제 클릭
@@ -276,7 +298,13 @@
     });
 
     $("#closenew").click(async function () {
+      //입력한거 초기화
+      document.getElementById("image").value = '';
+      document.getElementById("comment").value = '';
+      document.getElementById("title").value = '';
+      document.getElementById("makemempass").value = '';
       modal.style.display = 'none'
+
     });
 
 
@@ -387,6 +415,7 @@
         </div>
         <button id="makemembtn" type="button" class="btn btn-warning">멤버 생성</button>
         <button id="closenew" class="btn btn-secondary">닫기</button>
+        <input type="password" id="makemempass" placeholder="암호 입력">
       </div>
 
     </form>
