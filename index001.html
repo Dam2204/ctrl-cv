@@ -16,54 +16,20 @@
       font-family: "Gowun Dodum", sans-serif;
     }
 
-    .fixed-button {
-      position: fixed;
-      /* 화면에1251251251 고정 */
-      top: 800px;
-      /* 화면의 위에서 20px 아래 */
-      right: 80px;
-      /* 화면의 오른쪽에서 20px 왼쪽? */
-      padding: 10px 20px;
-      background-color: #857b7d;
-      /* 빨간색 배경 */
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 18px;
-      z-index: 10;
-      /* 다른 요소 위에 표시 */
-      text-decoration-line: none;
-      box-shadow: 5px 5px rgb(75, 75, 75);
-
-
-
-    }
-
+    /* 멤버등록 내 암호입력 배치*/
     #makemempass {
       justify-content: flex-end;
       margin-left: 90px;
 
     }
 
-    .msg {
-      color: rgb(165, 160, 160);
-    }
-
-    i {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      cursor: pointer;
-    }
-
-
-
+    /*최상단부 배치 */
     .cvmain {
       width: 100%;
       text-align: center;
     }
 
+    /* 팀 소개 배치 */
     .teaminfo {
       width: 1875px;
       height: 300px;
@@ -73,6 +39,7 @@
 
     }
 
+    /* 기본 멤버의 카드 배치 */
     .membercards {
       margin: 10px 30px 30px 30px;
       text-align: left;
@@ -81,12 +48,14 @@
 
     }
 
+    /*멤버카드 이미지 부분 사이즈 통일*/
     .card-img-top {
       height: 24rem;
       object-fit: cover;
 
     }
 
+    /*멤버 등록 모달창*/
     .modal {
       height: 100vh;
       width: 100vw;
@@ -99,6 +68,7 @@
       justify-content: center;
     }
 
+    /*모달창 내부 배치*/
     form {
       height: 350px;
       width: 540px;
@@ -108,16 +78,7 @@
       position: relative;
     }
 
-    .newmember {
-      background-color: gold;
-      text-align: center;
-    }
-
-    .newmember>button {
-      width: 200px;
-      height: 100px;
-    }
-
+    /*모달창 내부 배치..?*/
     .newmemberui {
 
       width: 500px;
@@ -128,22 +89,26 @@
       border-radius: 5px;
     }
 
+    /* 상단 메뉴바 배치 */
     .container {
       margin: auto auto auto auto;
       background-color: #3d3b3a;
       max-width: 1920px;
     }
 
+    /* 메뉴바 아이콘*/
     .icon {
       width: 30px;
       height: 30px;
       margin: 15px 15px 15px 7.5px;
     }
 
+    /* 메뉴바 버튼 배치*/
     .menu {
       margin: 10px 10px 10px auto;
     }
 
+    /* TOP 버튼 */
     .fixed-button {
       position: fixed;
       /* 화면에 고정 */
@@ -161,8 +126,8 @@
       border-radius: 15px;
       cursor: pointer;
       font-size: 15px;
-      z-index: 10;
       /* 다른 요소 위에 표시 */
+      z-index: 10;
     }
   </style>
 
@@ -192,47 +157,46 @@
     const db = getFirestore(app);
 
 
-
+    //멤버등록 내 멤버 생성 버튼 클릭시
     $("#makemembtn").click(async function () {
       let image = $('#image').val();
       let title = $('#title').val();
       let comment = $('#comment').val();
+      // 입력한 암호값 대입
       const makemempa = document.getElementById("makemempass").value;
 
 
       //비밀번호(1234) 체크
       if (makemempa !== '1234') {
         alert("올바른 암호를 입력해 주세요.");
-        //입력한거 초기화
-        document.getElementById("image").value = '';
-        document.getElementById("comment").value = '';
-        document.getElementById("title").value = '';
+        //입력한 암호 초기화
         document.getElementById("makemempass").value = '';
         return;
       }
 
 
-
+      // 데이터 베이스 각각 항목에 입력값 기록
       let doc = {
         'image': image,
         'title': title,
         'comment': comment
       };
-
+// db 내에 ctrl_cv 문서에 등록
       await addDoc(collection(db, "ctrl_cv"), doc);
       alert('멤버 등록 완료!');
-
+// 화면 갱신
       window.location.reload();
     })
-
+//데이터 베이스에 있는 정보로 멤버카드 만들기
     let docs = await getDocs(collection(db, "ctrl_cv"));
+    // ctrl_cv 내에 모든 id값을 순회
     docs.forEach(async (doc) => {
+      // 데이터 베이스에서 필요한 값을 변수에 대입
       let row = doc.data();
-
       let image = row['image'];
       let title = row['title'];
       let comment = row['comment'];
-
+// 만들어지는 멤버카드 UI
       let temp_html = `
             <div class="col">
                 <div class="card h-100">
@@ -246,7 +210,7 @@
                 </div>
             </div>
             `
-
+// 만든내용 표시명령
       $('#card').append(temp_html);
 
     });
@@ -254,6 +218,7 @@
 
     // 멤버 삭제 함수
     async function deleteGuestBookEntry(entryId) {
+      // ctrl_cv 내 id값 삭제 요청
       const docRef = doc(db, "ctrl_cv", entryId);
       await deleteDoc(docRef);
 
@@ -261,19 +226,22 @@
 
     // 멤버 삭제 클릭
     window.deleteEntry = async (entryId) => {
+      //확인창 출력
       if (confirm("이 멤버를 삭제하시겠습니까?")) {
+        // 확인 시 멤버 삭제 함수 실행
         await deleteGuestBookEntry(entryId);
         window.location.reload();
       }
     };
 
-
+ // 서울 미세먼지 api
     let url = "http://spartacodingclub.shop/sparta_api/seoulair";
     fetch(url).then(res => res.json()).then(data => {
       let mise = data['RealtimeCityAir']['row'][0]['IDEX_NM'];
       $('#msg').text(mise) /*텍스트 변경*/
     })
 
+        //멤버 이미지 클릭시 팝업창
     $("#click1").click(async function () {
       window.open('detail_1.html', '김수빈', 'width=800, height=460, top=150, left=550, scrollbars=no resizeable=none')
     });
@@ -291,20 +259,21 @@
     });
 
 
+    // 멤버등록 모달창
     const modal = document.querySelector('.modal')
-
+    // 멤버 등록하기 클릭시
     $("#makemember").click(async function () {
       modal.style.display = 'flex'
     });
-
+    // 멤버 등록하기 -> 닫기버튼 클릭 시
     $("#closenew").click(async function () {
-      //입력한거 초기화
+      //입력했던 내용들 초기화
       document.getElementById("image").value = '';
       document.getElementById("comment").value = '';
       document.getElementById("title").value = '';
       document.getElementById("makemempass").value = '';
+      // 모달 창 닫기
       modal.style.display = 'none'
-
     });
 
 
